@@ -628,7 +628,7 @@ export class NotebookComponent extends AngularDisposable implements OnInit, OnDe
 		}
 	}
 
-	public async nextPage(): Promise<void> {
+	public nextPage(): void {
 		try {
 			if (this._navProvider) {
 				this._navProvider.onNext(this.model.notebookUri);
@@ -638,7 +638,7 @@ export class NotebookComponent extends AngularDisposable implements OnInit, OnDe
 		}
 	}
 
-	public previousPage() {
+	public previousPage(): void {
 		try {
 			if (this._navProvider) {
 				this._navProvider.onPrevious(this.model.notebookUri);

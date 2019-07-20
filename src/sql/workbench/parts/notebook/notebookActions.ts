@@ -559,5 +559,49 @@ export class NewNotebookAction extends Action {
 	run(context?: azdata.ConnectedContext): Promise<void> {
 		return this.commandService.executeCommand(NewNotebookAction.INTERNAL_NEW_NOTEBOOK_CMD_ID, context);
 	}
+}
+export class NextPageAction extends Action {
+	public static readonly ID = 'notebook.command.nextPage';
+	public static readonly LABEL = localize('nextPageAction', "Next Page");
 
+	constructor(
+		id: string,
+		label: string
+	) {
+		super(id, label);
+	}
+
+	public run(context: NotebookComponent): Promise<boolean> {
+		return new Promise<boolean>((resolve, reject) => {
+			try {
+				context.nextPage();
+				resolve(true);
+			} catch (e) {
+				reject(e);
+			}
+		});
+	}
+}
+
+export class PreviousPageAction extends Action {
+	public static readonly ID = 'notebook.command.previousPage';
+	public static readonly LABEL = localize('previousPageAction', "Previous Page");
+
+	constructor(
+		id: string,
+		label: string
+	) {
+		super(id, label);
+	}
+
+	public run(context: NotebookComponent): Promise<boolean> {
+		return new Promise<boolean>((resolve, reject) => {
+			try {
+				context.previousPage();
+				resolve(true);
+			} catch (e) {
+				reject(e);
+			}
+		});
+	}
 }

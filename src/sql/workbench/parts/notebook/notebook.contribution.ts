@@ -10,7 +10,7 @@ import { SyncActionDescriptor } from 'vs/platform/actions/common/actions';
 
 import { NotebookInput } from 'sql/workbench/parts/notebook/notebookInput';
 import { NotebookEditor } from 'sql/workbench/parts/notebook/notebookEditor';
-import { NewNotebookAction } from 'sql/workbench/parts/notebook/notebookActions';
+import { NewNotebookAction, NextPageAction, PreviousPageAction } from 'sql/workbench/parts/notebook/notebookActions';
 import { KeyMod } from 'vs/editor/common/standalone/standaloneBase';
 import { KeyCode } from 'vs/base/common/keyCodes';
 import { IConfigurationRegistry, Extensions as ConfigExtensions } from 'vs/platform/configuration/common/configurationRegistry';
@@ -45,6 +45,29 @@ actionRegistry.registerWorkbenchAction(
 	),
 	NewNotebookAction.LABEL
 );
+
+actionRegistry.registerWorkbenchAction(
+	new SyncActionDescriptor(
+		NextPageAction,
+		NextPageAction.ID,
+		NextPageAction.LABEL,
+		{ primary: KeyCode.RightArrow },
+
+	),
+	NextPageAction.LABEL
+);
+
+actionRegistry.registerWorkbenchAction(
+	new SyncActionDescriptor(
+		PreviousPageAction,
+		PreviousPageAction.ID,
+		PreviousPageAction.LABEL,
+		{ primary: KeyCode.LeftArrow },
+
+	),
+	PreviousPageAction.LABEL
+);
+
 const configurationRegistry = <IConfigurationRegistry>Registry.as(ConfigExtensions.Configuration);
 configurationRegistry.registerConfiguration({
 	'id': 'notebook',
