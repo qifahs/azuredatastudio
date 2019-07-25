@@ -129,6 +129,14 @@
 			{
 				"command": "jupyter.reinstallDependencies",
 				"title": "%title.reinstallNotebookDependencies%"
+			},
+			{
+				"command": "book.command.nextPage",
+				"title": "%title.nextPage"
+			},
+			{
+				"command": "book.command.previousPage",
+				"title": "%title.previousPage"
 			}
 		],
 		"languages": [
@@ -261,6 +269,15 @@
 				"command": "notebook.command.addtext",
 				"key": "Ctrl+Shift+T",
 				"when": "activeEditor == workbench.editor.notebookEditor"
+			},
+			{
+				"command": "book.command.nextPage",
+				"key": "D",
+				"when": "activeEditor == workbench.editor.notebookEditor && bookOpened"
+			},{
+				"command": "book.command.previousPage",
+				"key": "A",
+				"when": "activeEditor == workbench.editor.notebookEditor && bookOpened"
 			}
 		],
 		"notebook.languagemagics": [

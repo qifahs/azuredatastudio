@@ -561,7 +561,7 @@ export class NewNotebookAction extends Action {
 	}
 }
 export class NextPageAction extends Action {
-	public static readonly ID = 'notebook.command.nextPage';
+	public static readonly ID = 'book.command.nextPage';
 	public static readonly LABEL = localize('nextPageAction', "Next Page");
 
 	constructor(
@@ -571,9 +571,10 @@ export class NextPageAction extends Action {
 		super(id, label);
 	}
 
-	public run(context: NotebookComponent): Promise<boolean> {
+	public run(context?: NotebookComponent): Promise<boolean> {
 		return new Promise<boolean>((resolve, reject) => {
 			try {
+				let notebook = azdata.nb.activeNotebookEditor;
 				context.nextPage();
 				resolve(true);
 			} catch (e) {
@@ -584,7 +585,7 @@ export class NextPageAction extends Action {
 }
 
 export class PreviousPageAction extends Action {
-	public static readonly ID = 'notebook.command.previousPage';
+	public static readonly ID = 'book.command.previousPage';
 	public static readonly LABEL = localize('previousPageAction', "Previous Page");
 
 	constructor(
@@ -594,7 +595,7 @@ export class PreviousPageAction extends Action {
 		super(id, label);
 	}
 
-	public run(context: NotebookComponent): Promise<boolean> {
+	public run(context?: NotebookComponent): Promise<boolean> {
 		return new Promise<boolean>((resolve, reject) => {
 			try {
 				context.previousPage();

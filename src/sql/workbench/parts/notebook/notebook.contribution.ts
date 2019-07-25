@@ -45,29 +45,6 @@ actionRegistry.registerWorkbenchAction(
 	),
 	NewNotebookAction.LABEL
 );
-
-actionRegistry.registerWorkbenchAction(
-	new SyncActionDescriptor(
-		NextPageAction,
-		NextPageAction.ID,
-		NextPageAction.LABEL,
-		{ primary: KeyCode.RightArrow },
-
-	),
-	NextPageAction.LABEL
-);
-
-actionRegistry.registerWorkbenchAction(
-	new SyncActionDescriptor(
-		PreviousPageAction,
-		PreviousPageAction.ID,
-		PreviousPageAction.LABEL,
-		{ primary: KeyCode.LeftArrow },
-
-	),
-	PreviousPageAction.LABEL
-);
-
 const configurationRegistry = <IConfigurationRegistry>Registry.as(ConfigExtensions.Configuration);
 configurationRegistry.registerConfiguration({
 	'id': 'notebook',
