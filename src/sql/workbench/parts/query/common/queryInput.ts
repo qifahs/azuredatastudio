@@ -333,6 +333,6 @@ export class QueryInput extends EditorInput implements IEncodingSupport, IConnec
 	}
 
 	public get isSharedSession(): boolean {
-		return this.uri && !this.uri.startsWith('vsls:');
+		return this.uri && this.uri.startsWith('vsls:');
 	}
 }

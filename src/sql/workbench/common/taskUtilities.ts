@@ -331,10 +331,14 @@ export function getCurrentGlobalConnection(objectExplorerService: IObjectExplore
 
 	let activeInput = workbenchEditorService.activeEditor;
 	if (activeInput) {
-		if (activeInput instanceof QueryInput || activeInput instanceof EditDataInput || activeInput instanceof DashboardInput) {
+		if (activeInput instanceof QueryInput) {
+			let queryInput = <QueryInput>activeInput;
+			if (!queryInput.isSharedSession) {
+				connection = connectionManagementService.getConnectionProfile(activeInput.uri);
+			}
+		} else if (activeInput instanceof EditDataInput || activeInput instanceof DashboardInput) {
 			connection = connectionManagementService.getConnectionProfile(activeInput.uri);
-		}
-		else if (activeInput instanceof ProfilerInput) {
+		} else if (activeInput instanceof ProfilerInput) {
 			connection = activeInput.connection;
 		}
 	}
