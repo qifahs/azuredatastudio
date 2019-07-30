@@ -7,7 +7,7 @@ import { SqlExtHostContext, SqlMainContext, ExtHostConnectionManagementShape, Ma
 import * as azdata from 'azdata';
 import { IExtHostContext } from 'vs/workbench/api/common/extHost.protocol';
 import { extHostNamedCustomer } from 'vs/workbench/api/common/extHostCustomers';
-import { IConnectionManagementService, ConnectionType } from 'sql/platform/connection/common/connectionManagement';
+import { IConnectionManagementService, ConnectionType, IConnectionParams } from 'sql/platform/connection/common/connectionManagement';
 import { IObjectExplorerService } from 'sql/workbench/services/objectExplorer/common/objectExplorerService';
 import { IEditorService } from 'vs/workbench/services/editor/common/editorService';
 import * as TaskUtilities from 'sql/workbench/common/taskUtilities';
@@ -44,8 +44,72 @@ export class MainThreadConnectionManagement implements MainThreadConnectionManag
 		this._toDispose = dispose(this._toDispose);
 	}
 
+	public $registerConnectionEventListener(handle: number, providerId: string): void {
+
+		let stripProfile = (inputProfile: azdata.IConnectionProfile) => {
+			if (!inputProfile) {
+				return inputProfile;
+			}
+
+			let outputProfile: azdata.IConnectionProfile = {
+				connectionName: inputProfile.connectionName,
+				serverName: inputProfile.serverName,
+				databaseName: inputProfile.databaseName,
+				userName: inputProfile.userName,
+				password: inputProfile.password,
+				authenticationType: inputProfile.authenticationType,
+				savePassword: inputProfile.savePassword,
+				groupFullName: inputProfile.groupFullName,
+				groupId: inputProfile.groupId,
+				providerName: inputProfile.providerName,
+				saveProfile: inputProfile.saveProfile,
+				id: inputProfile.id,
+				azureTenantId: inputProfile.azureTenantId,
+				options: inputProfile.options
+			};
+			return outputProfile;
+		};
+
+		this._connectionManagementService.onConnect((params: IConnectionParams) => {
+			this._proxy.$onConnectionEvent(handle, 'onConnect', params.connectionUri, stripProfile(params.connectionProfile));
+		});
+
+		this._connectionManagementService.onConnectionChanged((params: IConnectionParams) => {
+			this._proxy.$onConnectionEvent(handle, 'onConnectionChanged', params.connectionUri, stripProfile(params.connectionProfile));
+		});
+
+		this._connectionManagementService.onDisconnect((params: IConnectionParams) => {
+			this._proxy.$onConnectionEvent(handle, 'onDisconnect', params.connectionUri, stripProfile(params.connectionProfile));
+		});
+	}
+
 	public $getConnections(activeConnectionsOnly?: boolean): Thenable<azdata.connection.ConnectionProfile[]> {
 		return Promise.resolve(this._connectionManagementService.getConnections(activeConnectionsOnly).map(profile => this.convertToConnectionProfile(profile)));
+	}
+
+	public $getConnection(uri: string): Thenable<azdata.connection.ConnectionProfile> {
+		let profile = this._connectionManagementService.getConnection(uri);
+		if (!profile) {
+			return Promise.resolve(undefined);
+		}
+
+		let connection: azdata.connection.ConnectionProfile = {
+			providerId: profile.providerName,
+			connectionId: profile.id,
+			connectionName: profile.connectionName,
+			serverName: profile.serverName,
+			databaseName: profile.databaseName,
+			userName: profile.userName,
+			password: profile.password,
+			authenticationType: profile.authenticationType,
+			savePassword: profile.savePassword,
+			groupFullName: profile.groupFullName,
+			groupId: profile.groupId,
+			saveProfile: profile.savePassword,
+			azureTenantId: profile.azureTenantId,
+			options: profile.options
+		};
+		return Promise.resolve(connection);
 	}
 
 	public $getActiveConnections(): Thenable<azdata.connection.Connection[]> {

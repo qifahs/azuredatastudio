@@ -28,7 +28,7 @@ declare module 'azdata' {
 			azureTenantId?: string;
 			options: { [name: string]: any };
 
-			static createFrom(options: any[]): ConnectionProfile;
+			static createFrom(options: Map<string, any>): ConnectionProfile;
 		}
 
 		/**

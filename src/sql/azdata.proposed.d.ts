@@ -36,7 +36,7 @@ declare module 'azdata' {
 
 		export function registerMetadataProvider(provider: MetadataProvider): vscode.Disposable;
 
-		export function registerQueryProvider(provider: QueryProvider): vscode.Disposable;
+		export function registerQueryProvider(provider: QueryProvider, isLiveShare?: boolean): vscode.Disposable;
 
 		export function registerAdminServicesProvider(provider: AdminServicesProvider): vscode.Disposable;
 
@@ -126,6 +126,20 @@ declare module 'azdata' {
 			*/
 			connectionId: string;
 		}
+
+		export type ConnectionEvent =
+			| 'onConnect'
+			| 'onDisconnect'
+			| 'onConnectionChanged';
+
+		export interface ConnectionEventListener {
+			onConnectionEvent(type: ConnectionEvent, ownerUri: string, args: IConnectionProfile): void;
+		}
+
+		/**
+		 * Register a connection event listener
+		 */
+		export function registerConnectionEventListener(listener: connection.ConnectionEventListener): void;
 	}
 
 	/**
@@ -4000,6 +4014,9 @@ declare module 'azdata' {
 			// tab content is build using the modelview UI builder APIs
 			// probably should rename DialogTab class since it is useful outside dialogs
 			createQueryTab(tab: window.DialogTab): void;
+
+			// connect the query document using the given connection profile
+			connect(connectionProfile: connection.ConnectionProfile): Thenable<void>;
 		}
 
 		/**
@@ -4235,6 +4252,8 @@ declare module 'azdata' {
 		 * @param connectionId The ID of the connection
 		 */
 		export function getUriForConnection(connectionId: string): Thenable<string>;
+
+		export function getConnection(uri: string): Thenable<ConnectionProfile>;
 
 		/**
 		 * Opens the connection dialog, calls the callback with the result. If connection was successful

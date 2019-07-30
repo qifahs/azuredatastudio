@@ -38,7 +38,7 @@ export abstract class ExtHostAccountManagementShape {
 }
 
 export abstract class ExtHostConnectionManagementShape {
-	$onConnectionOpened(handleId: string, connection: azdata.connection.Connection): void { throw ni; }
+	$onConnectionEvent(handle: number, type: azdata.connection.ConnectionEvent, ownerUri: string, profile: azdata.IConnectionProfile): void { throw ni(); }
 }
 
 export abstract class ExtHostDataProtocolShape {
@@ -179,6 +179,11 @@ export abstract class ExtHostDataProtocolShape {
 	 * Sets the query execution options for a query editor document
 	 */
 	$setQueryExecutionOptions(handle: number, ownerUri: string, options: azdata.QueryExecutionOptions): Thenable<void> { throw ni(); }
+
+	/**
+	 * Connect the editor document to the given profile
+	 */
+	$connectWithProfile(handle: number, ownerUri: string, profile: azdata.connection.ConnectionProfile): Thenable<void> { throw ni(); }
 
 	/**
 	 * Disposes the cached information regarding a query
@@ -606,7 +611,9 @@ export interface MainThreadDataProtocolShape extends IDisposable {
 }
 
 export interface MainThreadConnectionManagementShape extends IDisposable {
+	$registerConnectionEventListener(handle: number, providerId: string): void;
 	$getConnections(activeConnectionsOnly?: boolean): Thenable<azdata.connection.ConnectionProfile[]>;
+	$getConnection(uri: string): Thenable<azdata.connection.ConnectionProfile>;
 	$getActiveConnections(): Thenable<azdata.connection.Connection[]>;
 	$getCurrentConnection(): Thenable<azdata.connection.Connection>;
 	$getCurrentConnectionProfile(): Thenable<azdata.connection.ConnectionProfile>;
@@ -816,6 +823,7 @@ export interface ExtHostQueryEditorShape {
 
 export interface MainThreadQueryEditorShape extends IDisposable {
 	$connect(fileUri: string, connectionId: string): Thenable<void>;
+	$connectWithProfile(fileUri: string, connectionProfile: azdata.connection.ConnectionProfile): Thenable<void>;
 	$runQuery(fileUri: string): void;
 	$createQueryTab(fileUri: string, title: string, content: string): void;
 	$setQueryExecutionOptions(fileUri: string, options: azdata.QueryExecutionOptions): Thenable<void>;
