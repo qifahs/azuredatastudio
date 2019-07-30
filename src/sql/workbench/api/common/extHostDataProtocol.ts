@@ -10,7 +10,6 @@ import { IMainContext } from 'vs/workbench/api/common/extHost.protocol';
 import { Disposable } from 'vs/workbench/api/common/extHostTypes';
 import { SqlMainContext, MainThreadDataProtocolShape, ExtHostDataProtocolShape } from 'sql/workbench/api/common/sqlExtHost.protocol';
 import { DataProviderType } from 'sql/workbench/api/common/sqlExtHostTypes';
-import { Dictionary } from 'underscore';
 
 export class ExtHostDataProtocol extends ExtHostDataProtocolShape {
 
@@ -103,8 +102,8 @@ export class ExtHostDataProtocol extends ExtHostDataProtocolShape {
 
 	private liveShareProviders = new Map<string, any>();
 
-	$registerQueryProvider(provider: azdata.QueryProvider, isLiveShare?: boolean): vscode.Disposable {
-		if (isLiveShare) {
+	$registerQueryProvider(provider: azdata.QueryProvider, isSharedSession?: boolean): vscode.Disposable {
+		if (isSharedSession) {
 			this.liveShareProviders['QueryProvider'] = provider;
 		}
 

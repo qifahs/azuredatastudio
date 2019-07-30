@@ -220,7 +220,7 @@ export function createApiFactory(
 				return extHostDataProvider.$registerConnectionProvider(provider);
 			};
 
-			let registerQueryProvider = (provider: azdata.QueryProvider, isLiveShare?: boolean): vscode.Disposable => {
+			let registerQueryProvider = (provider: azdata.QueryProvider, isSharedSession?: boolean): vscode.Disposable => {
 				provider.registerOnQueryComplete((result: azdata.QueryExecuteCompleteNotificationResult) => {
 					extHostDataProvider.$onQueryComplete(provider.handle, result);
 				});
@@ -249,7 +249,7 @@ export function createApiFactory(
 					extHostDataProvider.$onEditSessionReady(provider.handle, ownerUri, success, message);
 				});
 
-				return extHostDataProvider.$registerQueryProvider(provider, isLiveShare);
+				return extHostDataProvider.$registerQueryProvider(provider, isSharedSession);
 			};
 
 			let registerObjectExplorerProvider = (provider: azdata.ObjectExplorerProvider): vscode.Disposable => {

@@ -571,7 +571,7 @@ export class ConnectionProfile {
 		this.options['providerId'] = value;
 	}
 
-	get connectionId(): string  {
+	get connectionId(): string {
 		return this.options['connectionId'];
 	}
 
@@ -579,7 +579,7 @@ export class ConnectionProfile {
 		this.options['connectionId'] = value;
 	}
 
-	get connectionName(): string  {
+	get connectionName(): string {
 		return this.options['connectionName'];
 	}
 
@@ -587,7 +587,7 @@ export class ConnectionProfile {
 		this.options['connectionName'] = value;
 	}
 
-	get serverName(): string  {
+	get serverName(): string {
 		return this.options['serverName'];
 	}
 
@@ -595,7 +595,7 @@ export class ConnectionProfile {
 		this.options['serverName'] = value;
 	}
 
-	get databaseName(): string  {
+	get databaseName(): string {
 		return this.options['databaseName'];
 	}
 
@@ -603,7 +603,7 @@ export class ConnectionProfile {
 		this.options['databaseName'] = value;
 	}
 
-	get userName(): string  {
+	get userName(): string {
 		return this.options['userName'];
 	}
 
@@ -611,7 +611,7 @@ export class ConnectionProfile {
 		this.options['userName'] = value;
 	}
 
-	get password(): string  {
+	get password(): string {
 		return this.options['password'];
 	}
 
@@ -619,7 +619,7 @@ export class ConnectionProfile {
 		this.options['password'] = value;
 	}
 
-	get authenticationType(): string  {
+	get authenticationType(): string {
 		return this.options['authenticationType'];
 	}
 
@@ -627,7 +627,7 @@ export class ConnectionProfile {
 		this.options['authenticationType'] = value;
 	}
 
-	get savePassword(): boolean  {
+	get savePassword(): boolean {
 		return this.options['savePassword'];
 	}
 
@@ -635,7 +635,7 @@ export class ConnectionProfile {
 		this.options['savePassword'] = value;
 	}
 
-	get groupFullName(): string  {
+	get groupFullName(): string {
 		return this.options['groupFullName'];
 	}
 
@@ -643,7 +643,7 @@ export class ConnectionProfile {
 		this.options['groupFullName'] = value;
 	}
 
-	get groupId(): string  {
+	get groupId(): string {
 		return this.options['groupId'];
 	}
 
@@ -651,7 +651,7 @@ export class ConnectionProfile {
 		this.options['groupId'] = value;
 	}
 
-	get saveProfile(): boolean  {
+	get saveProfile(): boolean {
 		return this.options['groupId'];
 	}
 
@@ -659,7 +659,7 @@ export class ConnectionProfile {
 		this.options['groupId'] = value;
 	}
 
-	get azureTenantId(): string  {
+	get azureTenantId(): string {
 		return this.options['azureTenantId'];
 	}
 

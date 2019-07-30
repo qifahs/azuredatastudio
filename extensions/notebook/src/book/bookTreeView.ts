@@ -25,7 +25,9 @@ export class BookTreeViewProvider implements vscode.TreeDataProvider<BookTreeIte
 	private _resource: string;
 
 	constructor(private workspaceRoot: string, extensionContext: vscode.ExtensionContext) {
-		if (workspaceRoot !== '') {
+		// LiveShare sessions set the workspace to the root directory.  We don't want to scan the entire drive in this
+		// scenario because (1) it throws permissions issues and (2) perf implications
+		if (workspaceRoot !== '' && this.workspaceRoot !== '\\' && this.workspaceRoot !== '/') {
 			this._tableOfContentsPath = this.getTocFiles(this.workspaceRoot);
 			let bookOpened: boolean = this._tableOfContentsPath && this._tableOfContentsPath.length > 0;
 			vscode.commands.executeCommand('setContext', 'bookOpened', bookOpened);

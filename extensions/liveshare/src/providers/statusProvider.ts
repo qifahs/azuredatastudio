@@ -60,7 +60,7 @@ export class StatusProvider {
 		// to the host file path format.
 		this._sharedService.onRequest('getDocumentState', async (args: any[]) => {
 			if (args && args.length > 0) {
-				let ownerUri =  vscode.Uri.parse(args[0].ownerUri);
+				let ownerUri = vscode.Uri.parse(args[0].ownerUri);
 				let localUri: vscode.Uri = self._vslsApi.convertSharedUriToLocal(ownerUri);
 				let connection = await azdata.connection.getConnection(localUri.toString());
 

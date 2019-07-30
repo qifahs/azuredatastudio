@@ -25,7 +25,7 @@ export class ExtHostConnectionManagement extends ExtHostConnectionManagementShap
 		if (listener) {
 			listener.onConnectionEvent(type, ownerUri, profile);
 		}
-	 }
+	}
 
 	public $registerConnectionEventListener(providerId: string, listener: azdata.connection.ConnectionEventListener): void {
 		this._connectionListeners[this._nextListenerHandle] = listener;
