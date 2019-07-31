@@ -40,7 +40,7 @@ export class ConnectionProvider {
 	public registerProviderListener(): void {
 		let self = this;
 		azdata.connection.registerConnectionEventListener({
-			onConnectionEvent(type: azdata.connection.ConnectionEvent, ownerUri: string, profile: azdata.IConnectionProfile) {
+			onConnectionEvent(type: azdata.connection.ConnectionEventType, ownerUri: string, profile: azdata.IConnectionProfile) {
 				try {
 					let localUri: vscode.Uri = self._vslsApi.convertLocalUriToShared(vscode.Uri.parse(ownerUri));
 					ownerUri = localUri.toString();
