@@ -12,24 +12,22 @@ import { SharedService, SharedServiceProxy } from '../liveshare';
 export class QueryProvider {
 	private _sharedService: SharedService;
 	private _sharedServiceProxy: SharedServiceProxy;
+	private _onQueryCompleteHandler: (result: azdata.QueryExecuteCompleteNotificationResult) => any;
 
 	public constructor(private _isHost: boolean) { }
 
 	public initialize(isHost: boolean, service: SharedService | SharedServiceProxy) {
 		if (this._isHost) {
 			this._sharedService = <SharedService>service;
-
 			this.registerProviderListener();
 		} else {
 			this._sharedServiceProxy = <SharedServiceProxy>service;
-
-
 			this.registerProvider();
 		}
 	}
 
 	public registerProviderListener() {
-		this._sharedService.onRequest(constants.cancelConnectRequest, (args: any) => {
+		this._sharedService.onRequest(constants.cancelQueryRequest, (args: any) => {
 			return;
 		});
 
@@ -70,10 +68,16 @@ export class QueryProvider {
 		});
 	}
 
-
 	public registerProvider(): vscode.Disposable {
 		const self = this;
 		let runQuery = (ownerUri: string, querySelection: azdata.ISelectionData, executionPlanOptions?: azdata.ExecutionPlanOptions): Thenable<void> => {
+			if (self._onQueryCompleteHandler) {
+				self._onQueryCompleteHandler({
+					ownerUri: ownerUri,
+					batchSummaries: []
+				});
+			}
+
 			return self._sharedServiceProxy.request(constants.runQueryRequest, [{
 				ownerUri: ownerUri,
 				querySelection: querySelection,
@@ -129,6 +133,7 @@ export class QueryProvider {
 		};
 
 		let registerOnQueryComplete = (handler: (result: azdata.QueryExecuteCompleteNotificationResult) => any): void => {
+			self._onQueryCompleteHandler = handler;
 		};
 
 		let registerOnBatchStart = (handler: (batchInfo: azdata.QueryExecuteBatchNotificationParams) => any): void => {
