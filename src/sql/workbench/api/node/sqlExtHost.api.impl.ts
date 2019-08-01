@@ -104,7 +104,9 @@ export function createApiFactory(
 				registerConnectionEventListener(listener: azdata.connection.ConnectionEventListener): void {
 					return extHostConnectionManagement.$registerConnectionEventListener(mssqlProviderName, listener);
 				},
-
+				getConnection(uri: string): Thenable<azdata.connection.ConnectionProfile> {
+					return extHostConnectionManagement.$getConnection(uri);
+				},
 				// "sqlops" back-compat APIs
 				getActiveConnections(): Thenable<azdata.connection.Connection[]> {
 					console.warn('the method azdata.connection.getActiveConnections has been deprecated, replace it with azdata.connection.getConnections');
@@ -219,7 +221,7 @@ export function createApiFactory(
 				return extHostDataProvider.$registerConnectionProvider(provider);
 			};
 
-			let registerQueryProvider = (provider: azdata.QueryProvider): vscode.Disposable => {
+			let registerQueryProvider = (provider: azdata.QueryProvider, isSharedSession?: boolean): vscode.Disposable => {
 				provider.registerOnQueryComplete((result: azdata.QueryExecuteCompleteNotificationResult) => {
 					extHostDataProvider.$onQueryComplete(provider.handle, result);
 				});
@@ -248,7 +250,7 @@ export function createApiFactory(
 					extHostDataProvider.$onEditSessionReady(provider.handle, ownerUri, success, message);
 				});
 
-				return extHostDataProvider.$registerQueryProvider(provider);
+				return extHostDataProvider.$registerQueryProvider(provider, isSharedSession);
 			};
 
 			let registerObjectExplorerProvider = (provider: azdata.ObjectExplorerProvider): vscode.Disposable => {
