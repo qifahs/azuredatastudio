@@ -58,6 +58,7 @@ export abstract class DacFxConfigPage extends BasePage {
 
 		let targetServerTitle = localize('dacFx.targetServerDropdownTitle', 'Target Server');
 		let sourceServerTitle = localize('dacFx.sourceServerDropdownTitle', 'Source Server');
+		this.serverDropdown.ariaLabel = isTargetServer ? targetServerTitle : sourceServerTitle;
 
 		return {
 			component: this.serverDropdown,
@@ -108,6 +109,8 @@ export abstract class DacFxConfigPage extends BasePage {
 		this.databaseLoader = this.view.modelBuilder.loadingComponent().withItem(this.databaseDropdown).withProperties({
 			required: true
 		}).component();
+
+		this.databaseDropdown.ariaLabel = localize('dacFx.sourceDatabaseDropdownTitle', 'Source Database');
 
 		return {
 			component: this.databaseLoader,
